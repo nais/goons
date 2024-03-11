@@ -1,0 +1,54 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goons
+spec:
+  schedule: "0 12 * * * "
+  startingDeadlineSeconds: 600
+  successfulJobsHistoryLimit: 1
+  suspend: false
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          annotations:
+            linkerd.io/inject: disabled
+          labels:
+            app: goons
+        spec:
+          volumes:
+            - name: tmp
+              emptyDir:
+                medium: Memory
+          restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+            runAsUser: 65534
+            runAsNonRoot: true
+            runAsGroup: 65534
+            fsGroup: 65534
+          containers:
+            - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+              imagePullPolicy: { { .Values.image.pullPolicy } }
+              name: canary-deployer
+              securityContext:
+                capabilities:
+                  drop:
+                    - ALL
+                seccompProfile:
+                  type: RuntimeDefault
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+              env:
+                - name: SLACK_WEBHOOK
+                  value: { { .Values.slackWebhook } }
+                - name: FOLDERS
+                  value: { { join " " .Values.folder.ids } }
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+                  readOnly: false
