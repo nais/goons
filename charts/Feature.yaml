@@ -1,0 +1,24 @@
+environmentKinds:
+  - management
+
+values:
+  folder.id:
+    displayName: Nais folder IDs
+    description: Comma-separated list of folder ids to fetch findings from
+    config:
+      type: string
+  resources.cpu:
+    displayName: CPU request
+    description: The expected amount of CPU the container can use
+    config:
+      type: string
+  resources.memory:
+    displayName: Memory request & limit
+    description: The maximum amount of memory the container can use
+    config:
+      type: string
+  slackWebhook:
+    displayName: Slack webhook
+    description: The Slack webhook to send notifications to
+    config:
+      type: string

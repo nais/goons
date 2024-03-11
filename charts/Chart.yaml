@@ -1,0 +1,7 @@
+apiVersion: v2
+name: goons
+description: Job for fetching findings from Google Security Command Center
+type: application
+version: v0.1.0
+sources:
+  - https://github.com/nais/goons/tree/main/charts
