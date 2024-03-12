@@ -45,5 +45,4 @@ func Run(ctx context.Context) {
 			log.Infof("Finding: %s, Severity: %s - %s: %s --- %s", finding.GetResourceName(), finding.GetSeverity(), finding.GetVulnerability(), finding.GetFindingClass(), finding.GetDescription())
 		}
 	}
-
 }
