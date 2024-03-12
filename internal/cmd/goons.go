@@ -2,7 +2,6 @@ package goons
 
 import (
 	"context"
-	"fmt"
 	"os"
 
 	"github.com/nais/goons/internal/gke"
@@ -36,7 +35,7 @@ func Run(ctx context.Context) {
 	}
 
 	if cfg.orgID != "" {
-		result, err := sccClient.ListFindings(ctx, fmt.Sprintf("organizations/%s/sources/-", cfg.orgID))
+		result, err := sccClient.ListFindings(ctx, "organizations/"+cfg.orgID+"/sources/-")
 		if err != nil {
 			log.Fatal(err)
 		}
