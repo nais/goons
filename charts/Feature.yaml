@@ -6,7 +6,7 @@ values:
     displayName: Organization ID
     description: The organization ID to fetch findings from
     computed:
-      template: '{{ .Env.org_id }}'
+      template: '{{ .Env.org_id | quote }}'
     config:
       type: string
   folderIDs:
