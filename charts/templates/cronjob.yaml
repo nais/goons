@@ -18,6 +18,7 @@ spec:
             app: goons
         spec:
           restartPolicy: Never
+          serviceAccountName: goons-user
           securityContext:
             seccompProfile:
               type: RuntimeDefault
