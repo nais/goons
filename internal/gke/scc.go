@@ -15,16 +15,15 @@ type Client struct {
 	log       *logrus.Logger
 }
 
-func New(log *logrus.Logger, sccClient *securitycenter.Client) (*Client, error) {
+func New(log *logrus.Logger) (*Client, error) {
 	ctx := context.Background()
 	client, err := securitycenter.NewClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("securitycenter.NewClient: %w", err)
 	}
-	defer client.Close()
 
 	return &Client{
-		sccClient: sccClient,
+		sccClient: client,
 		log:       log,
 	}, nil
 }
