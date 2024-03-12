@@ -27,10 +27,6 @@ func New(ctx context.Context, log *logrus.Logger) (*Client, error) {
 	}, nil
 }
 
-func (c *Client) Close() error {
-	return c.sccClient.Close()
-}
-
 func (c *Client) ListFindings(ctx context.Context, sourceName string) ([]*securitycenterpb.Finding, error) {
 	req := &securitycenterpb.ListFindingsRequest{
 		Parent: sourceName,
