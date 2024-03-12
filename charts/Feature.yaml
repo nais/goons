@@ -2,7 +2,12 @@ environmentKinds:
   - management
 
 values:
-  folder.ids:
+  organizationID:
+    displayName: Organization ID
+    description: The organization ID to fetch findings from
+    config:
+      type: string
+  folderIDs:
     displayName: Nais folder IDs
     description: Comma-separated list of folder ids to fetch findings from
     config:

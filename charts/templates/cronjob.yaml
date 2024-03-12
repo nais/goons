@@ -14,15 +14,9 @@ spec:
     spec:
       template:
         metadata:
-          annotations:
-            linkerd.io/inject: disabled
           labels:
             app: goons
         spec:
-          volumes:
-            - name: tmp
-              emptyDir:
-                medium: Memory
           restartPolicy: Never
           securityContext:
             seccompProfile:
@@ -33,8 +27,8 @@ spec:
             fsGroup: 65534
           containers:
             - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-              imagePullPolicy: { { .Values.image.pullPolicy } }
-              name: canary-deployer
+              imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+              name: goons
               securityContext:
                 capabilities:
                   drop:
@@ -45,10 +39,8 @@ spec:
                 readOnlyRootFilesystem: true
               env:
                 - name: SLACK_WEBHOOK
-                  value: { { .Values.slackWebhook } }
+                  value: "{{ .Values.slackWebhook }}"
                 - name: FOLDERS
-                  value: { { join " " .Values.folder.ids } }
-              volumeMounts:
-                - name: tmp
-                  mountPath: /tmp
-                  readOnly: false
+                  value: "{{ .Values.folderIDs }}"
+                - name: ORGANIZATION_ID
+                  value: "{{ .Values.organizationID }}"

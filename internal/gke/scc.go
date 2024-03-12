@@ -15,8 +15,7 @@ type Client struct {
 	log       *logrus.Logger
 }
 
-func New(log *logrus.Logger) (*Client, error) {
-	ctx := context.Background()
+func New(ctx context.Context, log *logrus.Logger) (*Client, error) {
 	client, err := securitycenter.NewClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("securitycenter.NewClient: %w", err)
