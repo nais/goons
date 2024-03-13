@@ -17,7 +17,7 @@ var cfg struct {
 }
 
 func init() {
-	flag.StringVar(&cfg.folderIDs, "folderIDs", os.Getenv("FOLDER_ID"), "GCP Folders - delimited by comma")
+	flag.StringVar(&cfg.folderIDs, "folderIDs", os.Getenv("FOLDERS"), "GCP Folders - delimited by comma")
 	flag.StringVar(&cfg.slackWebhook, "slackWebhook", os.Getenv("SLACK_WEBHOOK"), "Slack Webhook")
 }
 
