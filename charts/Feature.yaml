@@ -7,13 +7,6 @@ values:
     description: Comma-separated list of folder ids to fetch findings from
     config:
       type: string
-  organizationID:
-    displayName: Organization ID
-    description: The organization ID to fetch findings from
-    computed:
-      template: '{{ .Env.org_id | quote }}'
-    config:
-      type: string
   projectID:
     displayName: Google project ID
     description: The Google project ID to fetch findings from
