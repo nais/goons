@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	securitycenter "cloud.google.com/go/securitycenter/apiv1"
-	"cloud.google.com/go/securitycenter/apiv1/securitycenterpb"
+	securitycenter "cloud.google.com/go/securitycenter/apiv2"
+	"cloud.google.com/go/securitycenter/apiv2/securitycenterpb"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/api/iterator"
 )

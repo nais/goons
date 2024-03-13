@@ -43,6 +43,6 @@ require (
 )
 
 require (
-	cloud.google.com/go/securitycenter v1.27.0
+	cloud.google.com/go/securitycenter v1.28.0
 	golang.org/x/sys v0.18.0 // indirect
 )
