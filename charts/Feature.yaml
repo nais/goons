@@ -12,3 +12,10 @@ values:
     description: The Slack webhook to send notifications to
     config:
       type: string
+  projectID:
+    displayName: Google project ID
+    description: The Google project ID to fetch findings from
+    computed:
+      template: '{{ .Env.project_id | quote }}'
+    config:
+      type: string
