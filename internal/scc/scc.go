@@ -74,7 +74,8 @@ func (c *Client) ListFolderFindings(ctx context.Context, folder string) ([]Vulne
 				Scheme: "https",
 				Host:   "console.cloud.google.com",
 				Path:   fmt.Sprintf("security/command-center/findingsv2;name=%s;", finding.GetName()),
-			}})
+			},
+		})
 	}
 	return ret, nil
 }

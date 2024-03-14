@@ -11,7 +11,6 @@ type Slack struct {
 
 // New creates a new Slack client
 func New(token string) *Slack {
-
 	return &Slack{
 		client: slack.New(token),
 	}
