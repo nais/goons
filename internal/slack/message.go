@@ -2,6 +2,7 @@ package slack
 
 import (
 	"fmt"
+	"strings"
 
 	slackapi "github.com/slack-go/slack"
 )
@@ -22,10 +23,10 @@ func header(format string, args ...any) slackapi.Block {
 	return slackapi.NewHeaderBlock(slackapi.NewTextBlockObject("plain_text", fmt.Sprintf(format, args...), false, false))
 }
 
-func (s *Slack) GetNotificationMessageOptions(findingsSummary map[string]map[string]int) []slackapi.MsgOption {
+func (s *Slack) GetNotificationMessageOptions(tenant string, findingsSummary map[string]map[string]int) []slackapi.MsgOption {
 	attatchments := []slackapi.Attachment{}
 
-	headerBlock := header("Findings from Security Command Center for %s", "NAIS")
+	headerBlock := header("Findings from Security Command Center for %s", strings.ToUpper(tenant))
 
 	for severity, categories := range findingsSummary {
 		tmp := ""

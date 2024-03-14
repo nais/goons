@@ -16,6 +16,7 @@ var cfg struct {
 	folderIDs     string
 	slackToken    string
 	dataResidency string
+	tenant        string
 }
 
 var severityOrder = map[string]int{
@@ -30,6 +31,7 @@ func init() {
 	flag.StringVar(&cfg.folderIDs, "folderIDs", os.Getenv("FOLDERS"), "GCP Folders - delimited by comma")
 	flag.StringVar(&cfg.dataResidency, "dataResidency", os.Getenv("RESIDENCY"), "Data residency")
 	flag.StringVar(&cfg.slackToken, "slackToken", os.Getenv("SLACK_TOKEN"), "Slack Webhook")
+	flag.StringVar(&cfg.tenant, "tenant", os.Getenv("TENANT"), "Tenant")
 }
 
 func Run(ctx context.Context) {
@@ -69,7 +71,7 @@ func Run(ctx context.Context) {
 		findingsSummary[finding.Severity][finding.Category]++
 	}
 
-	msgOptions := slack.GetNotificationMessageOptions(findingsSummary)
+	msgOptions := slack.GetNotificationMessageOptions(cfg.tenant, findingsSummary)
 	err := slack.SendMessage("scc-alerts", msgOptions)
 	if err != nil {
 		log.Fatal(err)
