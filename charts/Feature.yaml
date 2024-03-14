@@ -12,6 +12,7 @@ values:
     description: The Slack token for Slack api
     config:
       type: string
+      secret: true
   projectID:
     displayName: Google project ID
     description: The Google project ID to fetch findings from
