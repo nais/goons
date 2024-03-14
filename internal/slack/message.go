@@ -43,7 +43,7 @@ func (s *Slack) GetNotificationMessageOptions(tenant, organizationId, residency 
 
 	}
 
-	linkBlock := mrkdwn("View findings for <https://console.cloud.google.com/security/command-center/findingsv2?organizationId=%s&supportedpurview=organizationId,folder,project&location=%s|Security Command Center>", organizationId, residency)
+	linkBlock := mrkdwn("View all findings in <https://console.cloud.google.com/security/command-center/findingsv2?organizationId=%s&supportedpurview=organizationId,folder,project&location=%s|Security Command Center>.", organizationId, residency)
 
 	return []slackapi.MsgOption{
 		slackapi.MsgOptionBlocks(headerBlock, linkBlock),
