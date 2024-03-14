@@ -2,7 +2,6 @@ package slack
 
 import (
 	"github.com/slack-go/slack"
-	slackapi "github.com/slack-go/slack"
 )
 
 // Slack is a client for sending messages to Slack
@@ -19,7 +18,7 @@ func New(token string) *Slack {
 }
 
 // SendMessage sends a message to a Slack channel
-func (s *Slack) SendMessage(channel string, msgOptions []slackapi.MsgOption) error {
+func (s *Slack) SendMessage(channel string, msgOptions []slack.MsgOption) error {
 	_, _, err := s.client.PostMessage(channel, msgOptions...)
 	return err
 }
