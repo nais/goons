@@ -30,7 +30,7 @@ var severityOrder = map[string]int{
 func init() {
 	flag.StringVar(&cfg.folderIDs, "folderIDs", os.Getenv("FOLDERS"), "GCP Folders - delimited by comma")
 	flag.StringVar(&cfg.dataResidency, "dataResidency", os.Getenv("RESIDENCY"), "Data residency")
-	flag.StringVar(&cfg.slackToken, "slackToken", os.Getenv("SLACK_TOKEN"), "Slack Webhook")
+	flag.StringVar(&cfg.slackToken, "slackToken", os.Getenv("SLACK_API_TOKEN"), "Slack Webhook")
 	flag.StringVar(&cfg.tenant, "tenant", os.Getenv("TENANT"), "Tenant")
 }
 
