@@ -7,9 +7,9 @@ values:
     description: Comma-separated list of folder ids to fetch findings from
     config:
       type: string
-  slackWebhook:
-    displayName: Slack webhook
-    description: The Slack webhook to send notifications to
+  slackToken:
+    displayName: Slack token
+    description: The Slack token for Slack api
     config:
       type: string
   projectID:
