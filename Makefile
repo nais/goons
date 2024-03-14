@@ -6,7 +6,7 @@ build:
 	go build -o bin/goons ./cmd/goons
 
 local:
-	env bash -c 'source ./.env; go run ./cmd/goons'
+	env bash -c 'source ./local.env; go run ./cmd/goons'
 
 test:
 	go test -cover ./...
