@@ -25,3 +25,7 @@ values:
     description: The data residency of the project, ie eu or global
     config:
       type: string
+  tenant:
+    displayName: Tenant name
+    computed:
+      template: '"{{.Tenant.Name}}"'

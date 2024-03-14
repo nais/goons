@@ -46,4 +46,4 @@ spec:
                 - name: RESIDENCY
                   value: "{{ .Values.residency }}"
                 - name: TENANT
-                  value: "{{ .Values.fasit.tenant.name }}"
+                  value: "{{ .Values.tenant }}"
