@@ -29,11 +29,12 @@ func New(ctx context.Context, log *logrus.Logger) (*Client, error) {
 
 func (c *Client) ListFindings(ctx context.Context, sourceName string) ([]*securitycenterpb.Finding, error) {
 	req := &securitycenterpb.ListFindingsRequest{
-		Parent: sourceName,
-		Filter: `state="ACTIVE"`,
+		Parent:   sourceName,
+		Filter:   `state="ACTIVE"`,
+		PageSize: 1000,
 	}
 
-	findings := make([]*securitycenterpb.Finding, 10)
+	findings := []*securitycenterpb.Finding{}
 
 	it := c.sccClient.ListFindings(ctx, req)
 	for {

@@ -12,12 +12,14 @@ import (
 )
 
 var cfg struct {
-	folderIDs    string
-	slackWebhook string
+	folderIDs     string
+	slackWebhook  string
+	dataResidency string
 }
 
 func init() {
 	flag.StringVar(&cfg.folderIDs, "folderIDs", os.Getenv("FOLDERS"), "GCP Folders - delimited by comma")
+	flag.StringVar(&cfg.dataResidency, "dataResidency", os.Getenv("RESIDENCY"), "Data residency")
 	flag.StringVar(&cfg.slackWebhook, "slackWebhook", os.Getenv("SLACK_WEBHOOK"), "Slack Webhook")
 }
 
@@ -35,11 +37,12 @@ func Run(ctx context.Context) {
 			log.Fatal(err)
 		}
 		log.Infof("fetching findings for folder: %s", folder)
-
-		result, err := sccClient.ListFindings(ctx, fmt.Sprintf("folders/%s/sources/-", folder))
+		result, err := sccClient.ListFindings(ctx, fmt.Sprintf("folders/%s/sources/-/locations/%s", folder, cfg.dataResidency))
 		if err != nil {
 			log.Fatal(err)
 		}
+
+		log.Infof("Found %d findings", len(result))
 
 		for _, finding := range result {
 			log.Infof("Finding: %s, Severity: %s - %s: %s --- %s", finding.GetResourceName(), finding.GetSeverity(), finding.GetVulnerability(), finding.GetFindingClass(), finding.GetDescription())

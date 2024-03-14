@@ -19,3 +19,8 @@ values:
       template: '{{ .Env.project_id | quote }}'
     config:
       type: string
+  residency:
+    displayName: Data residency location
+    description: The data residency of the project, ie eu or global
+    config:
+      type: string

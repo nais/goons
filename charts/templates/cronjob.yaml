@@ -43,3 +43,5 @@ spec:
                   value: "{{ .Values.slackWebhook }}"
                 - name: FOLDERS
                   value: "{{ .Values.folderIDs }}"
+                - name: RESIDENCY
+                  value: "{{ .Values.residency }}"
