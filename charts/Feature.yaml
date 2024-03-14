@@ -31,3 +31,9 @@ values:
       template: '"{{.Tenant.Name}}"'
     config:
       type: string
+  orgID:
+    displayName: Organization ID
+    computed:
+      template: '{{ .Env.org_id | quote }}'
+    config:
+      type: string

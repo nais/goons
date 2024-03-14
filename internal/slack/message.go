@@ -23,7 +23,7 @@ func header(format string, args ...any) slackapi.Block {
 	return slackapi.NewHeaderBlock(slackapi.NewTextBlockObject("plain_text", fmt.Sprintf(format, args...), false, false))
 }
 
-func (s *Slack) GetNotificationMessageOptions(tenant string, findingsSummary map[string]map[string]int) []slackapi.MsgOption {
+func (s *Slack) GetNotificationMessageOptions(tenant, organizationId, residency string, findingsSummary map[string]map[string]int) []slackapi.MsgOption {
 	attatchments := []slackapi.Attachment{}
 
 	headerBlock := header("Findings from Security Command Center for %s", strings.ToUpper(tenant))
@@ -43,7 +43,7 @@ func (s *Slack) GetNotificationMessageOptions(tenant string, findingsSummary map
 
 	}
 
-	linkBlock := mrkdwn("View all findings in <%s|Security Command Center>", "https://vg.no")
+	linkBlock := mrkdwn("View findings for <https://console.cloud.google.com/security/command-center/findingsv2?organizationId=%s&supportedpurview=organizationId,folder,project&location=%s|Security Command Center>", organizationId, residency)
 
 	return []slackapi.MsgOption{
 		slackapi.MsgOptionBlocks(headerBlock, linkBlock),

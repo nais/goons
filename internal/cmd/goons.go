@@ -17,6 +17,7 @@ var cfg struct {
 	slackToken    string
 	dataResidency string
 	tenant        string
+	orgID         string
 }
 
 var severityOrder = map[string]int{
@@ -32,6 +33,7 @@ func init() {
 	flag.StringVar(&cfg.dataResidency, "dataResidency", os.Getenv("RESIDENCY"), "Data residency")
 	flag.StringVar(&cfg.slackToken, "slackToken", os.Getenv("SLACK_API_TOKEN"), "Slack Webhook")
 	flag.StringVar(&cfg.tenant, "tenant", os.Getenv("TENANT"), "Tenant")
+	flag.StringVar(&cfg.orgID, "orgID", os.Getenv("ORG_ID"), "Organization ID")
 }
 
 func Run(ctx context.Context) {
@@ -71,7 +73,7 @@ func Run(ctx context.Context) {
 		findingsSummary[finding.Severity][finding.Category]++
 	}
 
-	msgOptions := slack.GetNotificationMessageOptions(cfg.tenant, findingsSummary)
+	msgOptions := slack.GetNotificationMessageOptions(cfg.tenant, cfg.orgID, cfg.dataResidency, findingsSummary)
 	err := slack.SendMessage("scc-alerts", msgOptions)
 	if err != nil {
 		log.Fatal(err)
