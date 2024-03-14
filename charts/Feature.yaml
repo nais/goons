@@ -29,3 +29,5 @@ values:
     displayName: Tenant name
     computed:
       template: '"{{.Tenant.Name}}"'
+    config:
+      type: string
