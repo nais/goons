@@ -5,6 +5,7 @@ metadata:
   name: goons
 spec:
   schedule: "0 12 * * * "
+  timeZone: "Europe/Oslo"
   startingDeadlineSeconds: 600
   successfulJobsHistoryLimit: 1
   suspend: false
