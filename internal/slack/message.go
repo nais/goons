@@ -33,9 +33,11 @@ func (s *Slack) GetNotificationMessageOptions(tenant, organizationId, residency 
 		for category, count := range findingsSummary[k] {
 			tmp += fmt.Sprintf("%s: %d\n", category, count)
 		}
+
 		if tmp != "" {
 			continue
 		}
+
 		severityAttachment := slackapi.Attachment{
 			Color: severityColors[k],
 			Title: fmt.Sprintf("Severity %s", k),
@@ -43,21 +45,6 @@ func (s *Slack) GetNotificationMessageOptions(tenant, organizationId, residency 
 		}
 		attatchments = append(attatchments, severityAttachment)
 	}
-
-	/*for severity, categories := range findingsSummary {
-		tmp := ""
-		for category, count := range categories {
-			tmp += fmt.Sprintf("%s: %d\n", category, count)
-		}
-
-		severityAttachment := slackapi.Attachment{
-			Color: severityColors[severity],
-			Title: fmt.Sprintf("Severity %s", severity),
-			Text:  tmp,
-		}
-		attatchments = append(attatchments, severityAttachment)
-
-	}*/
 
 	linkBlock := mrkdwn("View all findings in <https://console.cloud.google.com/security/command-center/findingsv2?organizationId=%s&supportedpurview=organizationId,folder,project&location=%s|Security Command Center>.", organizationId, residency)
 

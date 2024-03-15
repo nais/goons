@@ -1,4 +1,4 @@
-package scc
+package securitycommandcenter
 
 import (
 	"context"
@@ -18,7 +18,7 @@ type Vulnerability struct {
 }
 
 type Client struct {
-	sccClient *securitycenter.Client
+	client    *securitycenter.Client
 	log       *logrus.Logger
 	residency string
 }
@@ -30,13 +30,13 @@ func New(ctx context.Context, residency string, log *logrus.Logger) (*Client, er
 	}
 
 	return &Client{
-		sccClient: client,
+		client:    client,
 		log:       log,
 		residency: residency,
 	}, nil
 }
 
-func (c *Client) ListFindings(ctx context.Context, sourceName string) ([]*securitycenterpb.Finding, error) {
+func (c *Client) listFindings(ctx context.Context, sourceName string) ([]*securitycenterpb.Finding, error) {
 	req := &securitycenterpb.ListFindingsRequest{
 		Parent: sourceName,
 		Filter: `state="ACTIVE" AND NOT mute="MUTED"`,
@@ -44,7 +44,7 @@ func (c *Client) ListFindings(ctx context.Context, sourceName string) ([]*securi
 
 	findings := []*securitycenterpb.Finding{}
 
-	it := c.sccClient.ListFindings(ctx, req)
+	it := c.client.ListFindings(ctx, req)
 	for {
 		result, err := it.Next()
 		if err == iterator.Done {
@@ -61,7 +61,7 @@ func (c *Client) ListFindings(ctx context.Context, sourceName string) ([]*securi
 
 func (c *Client) ListFolderFindings(ctx context.Context, folder string) ([]Vulnerability, error) {
 	ret := []Vulnerability{}
-	findings, err := c.ListFindings(ctx, fmt.Sprintf("folders/%s/sources/-/locations/%s", folder, c.residency))
+	findings, err := c.listFindings(ctx, fmt.Sprintf("folders/%s/sources/-/locations/%s", folder, c.residency))
 	if err != nil {
 		return nil, err
 	}
