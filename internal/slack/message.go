@@ -33,6 +33,9 @@ func (s *Slack) GetNotificationMessageOptions(tenant, organizationId, residency 
 		for category, count := range findingsSummary[k] {
 			tmp += fmt.Sprintf("%s: %d\n", category, count)
 		}
+		if tmp != "" {
+			continue
+		}
 		severityAttachment := slackapi.Attachment{
 			Color: severityColors[k],
 			Title: fmt.Sprintf("Severity %s", k),

@@ -39,7 +39,7 @@ func New(ctx context.Context, residency string, log *logrus.Logger) (*Client, er
 func (c *Client) ListFindings(ctx context.Context, sourceName string) ([]*securitycenterpb.Finding, error) {
 	req := &securitycenterpb.ListFindingsRequest{
 		Parent: sourceName,
-		Filter: `state="ACTIVE"`,
+		Filter: `state="ACTIVE" AND NOT mute="MUTED"`,
 	}
 
 	findings := []*securitycenterpb.Finding{}
