@@ -5,6 +5,7 @@ on:
       - main
     paths-ignore:
       - '*.md'
+      - '*.env'
 env:
   NAME: goons
   FEATURE_REPOSITORY: oci://europe-north1-docker.pkg.dev/nais-io/nais/feature
