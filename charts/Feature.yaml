@@ -18,13 +18,6 @@ values:
     description: The Slack channel to post findings to
     config:
       type: string
-  projectID:
-    displayName: Google project ID
-    description: The Google project ID to fetch findings from
-    computed:
-      template: '{{ .Env.project_id | quote }}'
-    config:
-      type: string
   residency:
     displayName: Data residency location
     description: The data residency of the project, ie eu or global
@@ -33,7 +26,7 @@ values:
   tenant:
     displayName: Tenant name
     computed:
-      template: '"{{.Tenant.Name}}"'
+      template: '"{{ .Tenant.Name }}"'
     config:
       type: string
   orgID:
