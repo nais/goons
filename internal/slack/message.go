@@ -34,7 +34,7 @@ func (s *Slack) GetNotificationMessageOptions(tenant, organizationId, residency 
 			tmp += fmt.Sprintf("%s: %d\n", category, count)
 		}
 
-		if tmp != "" {
+		if tmp == "" {
 			continue
 		}
 

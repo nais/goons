@@ -23,14 +23,14 @@ func init() {
 	flag.StringVar(&cfg.dataResidency, "dataResidency", os.Getenv("RESIDENCY"), "Data residency: eu or global")
 	flag.StringVar(&cfg.folderIDs, "folderIDs", os.Getenv("FOLDERS"), "GCP Folders to fetch findings from, delimited by comma")
 	flag.StringVar(&cfg.orgID, "orgID", os.Getenv("ORG_ID"), "Organization ID")
-	flag.StringVar(&cfg.slackToken, "slackToken", os.Getenv("SLACK_API_TOKEN"), "Slack API token")
+	flag.StringVar(&cfg.slackToken, "slackAPIToken", os.Getenv("SLACK_API_TOKEN"), "Slack API token")
 	flag.StringVar(&cfg.tenant, "tenant", os.Getenv("TENANT"), "Tenant name")
 }
 
 func Run(ctx context.Context) {
 	flag.Parse()
 
-	if cfg.folderIDs == "" {
+	if cfg.folderIDs == "" || cfg.slackToken == "" || cfg.dataResidency == "" || cfg.tenant == "" || cfg.orgID == "" {
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
