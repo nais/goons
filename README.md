@@ -1,9 +1,20 @@
 # goons
-Job for pulling findings from Security Command Center
+
+Job for pulling and publishing findings from Security Command Center
 
 ## Description
+
 CronJob running in the `nais-system` namespace, pulling findings from Security Command Center and sending valid findings to slack.
 
-## Configuration
-Organization ID will be fetched from environment
-Folder ID is optional and can be used where we don't have organizational access.
+## Fasit Configuration
+
+- `folderIDs`: Folders to fetch findings from. Must be provided. Use comma as delimitor.
+- `residency`: Data residency. eu for v2 and global for v1 of Security Command Center. Must be provided.
+- `slackToken`: Slack API token. Must be provided.
+- `slackChannel`: Slack alert channel. Default value from values.yaml.
+- `orgID`: Organization ID - fetched from environment.
+- `tenant`: Tenant name - fetched from environment.
+
+## Local env
+
+A `local.env` file is provided as a template for local development. `make local` will source a `.env` file and run the job locally with Google Application Default Credentials. You will also need to set a quota project to be able to call the Security Command Center API with `gcloud auth application-default set-quota-project <projectId>`.
