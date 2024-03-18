@@ -32,22 +32,24 @@ func (s *Slack) GetNotificationMessageOptions(tenant, organizationId, residency 
 	blocks = append(blocks, headerBlock, linkBlock)
 
 	for _, k := range []string{"CRITICAL", "HIGH", "MEDIUM", "LOW", "SEVERITY_UNSPECIFIED"} {
-		tmp := ""
-
-		tmp += "<https://console.cloud.google.com/security/command-center/findingsv2;filter=state%3D%22ACTIVE%22%0AAND%20NOT%20mute%3D%22MUTED%22%0AAND%20severity%3D%22" + k + "%22;timeRange=P7D?organizationId=" + organizationId + "&supportedpurview=organizationId,folder,project&location=" + residency + "|View findings of " + strings.ToLower(k) + " severity in Security Command Center>.\n"
+		summaryText := ""
+		link := "<https://console.cloud.google.com/security/command-center/findingsv2;filter=state%3D%22ACTIVE%22%0AAND%20NOT%20mute%3D%22MUTED%22%0AAND%20severity%3D%22" + k + "%22;timeRange=P7D?organizationId=" + organizationId + "&supportedpurview=organizationId,folder,project&location=" + residency + "|View findings of " + strings.ToLower(k) + " severity in Security Command Center>.\n"
 
 		for category, count := range findingsSummary[k] {
-			tmp += fmt.Sprintf("%s: %d\n", category, count)
+			summaryText += fmt.Sprintf("%s: %d\n", category, count)
 		}
 
-		if tmp == "" {
-			continue
+		text := ""
+		if summaryText == "" {
+			text = ":rocket: No findings! \n"
+		} else {
+			text = link + summaryText
 		}
 
 		severityAttachment := slackapi.Attachment{
 			Color: severityColors[k],
 			Title: fmt.Sprintf("Severity %s", k),
-			Text:  tmp,
+			Text:  text,
 		}
 		attatchments = append(attatchments, severityAttachment)
 	}
