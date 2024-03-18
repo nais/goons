@@ -13,6 +13,11 @@ values:
     config:
       type: string
       secret: true
+  slackChannel:
+    displayName: Slack channel
+    description: The Slack channel to post findings to
+    config:
+      type: string
   projectID:
     displayName: Google project ID
     description: The Google project ID to fetch findings from

@@ -12,17 +12,19 @@ import (
 )
 
 var cfg struct {
-	folderIDs     string
-	slackToken    string
 	dataResidency string
-	tenant        string
+	folderIDs     string
 	orgID         string
+	slackChannel  string
+	slackToken    string
+	tenant        string
 }
 
 func init() {
 	flag.StringVar(&cfg.dataResidency, "dataResidency", os.Getenv("RESIDENCY"), "Data residency: eu or global")
 	flag.StringVar(&cfg.folderIDs, "folderIDs", os.Getenv("FOLDERS"), "GCP Folders to fetch findings from, delimited by comma")
 	flag.StringVar(&cfg.orgID, "orgID", os.Getenv("ORG_ID"), "Organization ID")
+	flag.StringVar(&cfg.slackChannel, "slackChannel", os.Getenv("SLACK_CHANNEL"), "Slack channel to send message to")
 	flag.StringVar(&cfg.slackToken, "slackAPIToken", os.Getenv("SLACK_API_TOKEN"), "Slack API token")
 	flag.StringVar(&cfg.tenant, "tenant", os.Getenv("TENANT"), "Tenant name")
 }
@@ -30,7 +32,7 @@ func init() {
 func Run(ctx context.Context) {
 	flag.Parse()
 
-	if cfg.folderIDs == "" || cfg.slackToken == "" || cfg.dataResidency == "" || cfg.tenant == "" || cfg.orgID == "" {
+	if cfg.folderIDs == "" || cfg.slackToken == "" || cfg.slackChannel == "" || cfg.dataResidency == "" || cfg.tenant == "" || cfg.orgID == "" {
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
@@ -42,22 +44,22 @@ func Run(ctx context.Context) {
 		log.WithError(err).Fatal("create security command center client")
 	}
 
-	folderFindings := []securitycommandcenter.Vulnerability{}
+	findings := []securitycommandcenter.Vulnerability{}
 	for _, folder := range strings.Split(cfg.folderIDs, ",") {
 		log.Infof("fetching findings for folder: %s", folder)
-		findings, err := client.ListFolderFindings(ctx, folder)
+		folderFindings, err := client.ListFolderFindings(ctx, folder)
 		if err != nil {
 			log.WithError(err).Fatal("list folder findings")
 		}
-		folderFindings = append(folderFindings, findings...)
+		findings = append(findings, folderFindings...)
 	}
 
-	folderFindings = securitycommandcenter.SortVulnerabilities(folderFindings)
+	findings = securitycommandcenter.SortVulnerabilities(findings)
 
-	findingsSummary := securitycommandcenter.CreateSummary(folderFindings)
+	findingsSummary := securitycommandcenter.CreateSummary(findings)
 
 	msgOptions := slackclient.GetNotificationMessageOptions(cfg.tenant, cfg.orgID, cfg.dataResidency, findingsSummary)
-	err = slackclient.SendMessage("scc-alerts", msgOptions)
+	err = slackclient.SendMessage(cfg.slackChannel, msgOptions)
 	if err != nil {
 		log.WithError(err).Fatal("send message to slack")
 	}

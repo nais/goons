@@ -9,3 +9,4 @@ resources:
   memory: 512Mi
 
 projectID: ""
+slackChannel: "gcp-security-command-center-alerts"

@@ -1,7 +1,6 @@
 package securitycommandcenter_test
 
 import (
-	"net/url"
 	"testing"
 
 	"github.com/nais/goons/internal/securitycommandcenter"
@@ -16,45 +15,45 @@ func TestSortVulnerabilities(t *testing.T) {
 		{
 			name: "sorts by severity",
 			input: []securitycommandcenter.Vulnerability{
-				{Severity: "LOW", Category: "A", FindingUrl: url.URL{}},
-				{Severity: "MEDIUM", Category: "B", FindingUrl: url.URL{}},
-				{Severity: "CRITICAL", Category: "C", FindingUrl: url.URL{}},
-				{Severity: "HIGH", Category: "D", FindingUrl: url.URL{}},
-				{Severity: "SEVERITY_UNSPECIFIED", Category: "E", FindingUrl: url.URL{}},
+				{Severity: "LOW", Category: "A", FindingUrl: "http://example.com"},
+				{Severity: "MEDIUM", Category: "B", FindingUrl: "http://example.com"},
+				{Severity: "CRITICAL", Category: "C", FindingUrl: "http://example.com"},
+				{Severity: "HIGH", Category: "D", FindingUrl: "http://example.com"},
+				{Severity: "SEVERITY_UNSPECIFIED", Category: "E", FindingUrl: "http://example.com"},
 			},
 			expected: []securitycommandcenter.Vulnerability{
-				{Severity: "CRITICAL", Category: "C", FindingUrl: url.URL{}},
-				{Severity: "HIGH", Category: "D", FindingUrl: url.URL{}},
-				{Severity: "MEDIUM", Category: "B", FindingUrl: url.URL{}},
-				{Severity: "LOW", Category: "A", FindingUrl: url.URL{}},
-				{Severity: "SEVERITY_UNSPECIFIED", Category: "E", FindingUrl: url.URL{}},
+				{Severity: "CRITICAL", Category: "C", FindingUrl: "http://example.com"},
+				{Severity: "HIGH", Category: "D", FindingUrl: "http://example.com"},
+				{Severity: "MEDIUM", Category: "B", FindingUrl: "http://example.com"},
+				{Severity: "LOW", Category: "A", FindingUrl: "http://example.com"},
+				{Severity: "SEVERITY_UNSPECIFIED", Category: "E", FindingUrl: "http://example.com"},
 			},
 		},
 		{
 			name: "sorts by severity and category",
 			input: []securitycommandcenter.Vulnerability{
-				{Severity: "LOW", Category: "A", FindingUrl: url.URL{}},
-				{Severity: "LOW", Category: "B", FindingUrl: url.URL{}},
-				{Severity: "MEDIUM", Category: "A", FindingUrl: url.URL{}},
-				{Severity: "MEDIUM", Category: "B", FindingUrl: url.URL{}},
-				{Severity: "CRITICAL", Category: "A", FindingUrl: url.URL{}},
-				{Severity: "CRITICAL", Category: "B", FindingUrl: url.URL{}},
-				{Severity: "HIGH", Category: "A", FindingUrl: url.URL{}},
-				{Severity: "HIGH", Category: "B", FindingUrl: url.URL{}},
-				{Severity: "SEVERITY_UNSPECIFIED", Category: "A", FindingUrl: url.URL{}},
-				{Severity: "SEVERITY_UNSPECIFIED", Category: "B", FindingUrl: url.URL{}},
+				{Severity: "LOW", Category: "A", FindingUrl: "http://example.com"},
+				{Severity: "LOW", Category: "B", FindingUrl: "http://example.com"},
+				{Severity: "MEDIUM", Category: "A", FindingUrl: "http://example.com"},
+				{Severity: "MEDIUM", Category: "B", FindingUrl: "http://example.com"},
+				{Severity: "CRITICAL", Category: "A", FindingUrl: "http://example.com"},
+				{Severity: "CRITICAL", Category: "B", FindingUrl: "http://example.com"},
+				{Severity: "HIGH", Category: "A", FindingUrl: "http://example.com"},
+				{Severity: "HIGH", Category: "B", FindingUrl: "http://example.com"},
+				{Severity: "SEVERITY_UNSPECIFIED", Category: "A", FindingUrl: "http://example.com"},
+				{Severity: "SEVERITY_UNSPECIFIED", Category: "B", FindingUrl: "http://example.com"},
 			},
 			expected: []securitycommandcenter.Vulnerability{
-				{Severity: "CRITICAL", Category: "A", FindingUrl: url.URL{}},
-				{Severity: "CRITICAL", Category: "B", FindingUrl: url.URL{}},
-				{Severity: "HIGH", Category: "A", FindingUrl: url.URL{}},
-				{Severity: "HIGH", Category: "B", FindingUrl: url.URL{}},
-				{Severity: "MEDIUM", Category: "A", FindingUrl: url.URL{}},
-				{Severity: "MEDIUM", Category: "B", FindingUrl: url.URL{}},
-				{Severity: "LOW", Category: "A", FindingUrl: url.URL{}},
-				{Severity: "LOW", Category: "B", FindingUrl: url.URL{}},
-				{Severity: "SEVERITY_UNSPECIFIED", Category: "A", FindingUrl: url.URL{}},
-				{Severity: "SEVERITY_UNSPECIFIED", Category: "B", FindingUrl: url.URL{}},
+				{Severity: "CRITICAL", Category: "A", FindingUrl: "http://example.com"},
+				{Severity: "CRITICAL", Category: "B", FindingUrl: "http://example.com"},
+				{Severity: "HIGH", Category: "A", FindingUrl: "http://example.com"},
+				{Severity: "HIGH", Category: "B", FindingUrl: "http://example.com"},
+				{Severity: "MEDIUM", Category: "A", FindingUrl: "http://example.com"},
+				{Severity: "MEDIUM", Category: "B", FindingUrl: "http://example.com"},
+				{Severity: "LOW", Category: "A", FindingUrl: "http://example.com"},
+				{Severity: "LOW", Category: "B", FindingUrl: "http://example.com"},
+				{Severity: "SEVERITY_UNSPECIFIED", Category: "A", FindingUrl: "http://example.com"},
+				{Severity: "SEVERITY_UNSPECIFIED", Category: "B", FindingUrl: "http://example.com"},
 			},
 		},
 	}

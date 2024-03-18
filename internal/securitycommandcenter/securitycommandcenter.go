@@ -14,7 +14,7 @@ import (
 type Vulnerability struct {
 	Severity   string
 	Category   string
-	FindingUrl url.URL
+	FindingUrl string
 }
 
 type Client struct {
@@ -68,14 +68,11 @@ func (c *Client) ListFolderFindings(ctx context.Context, folder string) ([]Vulne
 
 	for _, finding := range findings {
 		ret = append(ret, Vulnerability{
-			Severity: finding.GetSeverity().String(),
-			Category: finding.GetCategory(),
-			FindingUrl: url.URL{
-				Scheme: "https",
-				Host:   "console.cloud.google.com",
-				Path:   fmt.Sprintf("security/command-center/findingsv2;name=%s;", finding.GetName()),
-			},
+			Severity:   finding.GetSeverity().String(),
+			Category:   finding.GetCategory(),
+			FindingUrl: "https://console.cloud.google.com/security/command-center/findingsv2;name=" + url.PathEscape(finding.GetName()) + ";filter=state%3D%22ACTIVE%22%0AAND%20NOT%20mute%3D%22MUTED%22;timeRange=allTime?referrer=search&folder=" + folder,
 		})
 	}
+
 	return ret, nil
 }

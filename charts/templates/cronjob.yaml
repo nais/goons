@@ -53,3 +53,5 @@ spec:
                     secretKeyRef:
                       key: SLACK_API_TOKEN
                       name: slack-goons-notification
+                - name: SLACK_CHANNEL
+                  value: "{{ .Values.slackChannel }}"
