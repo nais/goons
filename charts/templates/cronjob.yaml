@@ -40,7 +40,7 @@ spec:
                 allowPrivilegeEscalation: false
                 readOnlyRootFilesystem: true
               env:
-                - name: FOLDERS
+                - name: CLUSTERS_PROJECTS
                   value: "{{ .Values.folderIDs }}"
                 - name: RESIDENCY
                   value: "{{ .Values.residency }}"
