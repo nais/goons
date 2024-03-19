@@ -46,8 +46,6 @@ spec:
                   value: "{{ .Values.residency }}"
                 - name: TENANT
                   value: "{{ .Values.tenant }}"
-                - name: ORG_ID
-                  value: "{{ .Values.orgID }}"
                 - name: SLACK_API_TOKEN
                   valueFrom:
                     secretKeyRef:

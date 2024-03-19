@@ -29,16 +29,16 @@ values:
       template: '"{{ .Tenant.Name }}"'
     config:
       type: string
-  orgID:
-    displayName: Organization ID
-    computed:
-      template: '{{ .Env.org_id | quote }}'
-    config:
-      type: string
   projectID:
     displayName: Google project ID
     description: The Google project ID to fetch findings from
     computed:
-      template: '{{ .Env.project_id | quote }}'
+      template: "{{ .Env.project_id | quote }}"
     config:
       type: string
+  clusters:
+    displayName: Clusters project IDs
+    description: Tenant clusters project IDs
+    computed:
+      template: |
+        {{append (eachOf .Envs "project_id") .Env.project_id | join ","}}

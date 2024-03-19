@@ -12,7 +12,6 @@ CronJob running in the `nais-system` namespace, pulling findings from Security C
 - `residency`: Data residency. eu for v2 and global for v1 of Security Command Center. Must be provided.
 - `slackToken`: Slack API token. Must be provided.
 - `slackChannel`: Slack alert channel. Default value from values.yaml.
-- `orgID`: Organization ID - fetched from environment.
 - `tenant`: Tenant name - fetched from environment.
 
 ## Local env
