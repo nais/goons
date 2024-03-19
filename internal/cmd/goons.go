@@ -20,7 +20,7 @@ var cfg struct {
 }
 
 func init() {
-	flag.StringVar(&cfg.clusterProjectIDs, "clusterProjectIDs", os.Getenv("CLUSTERS_PROJECTS"), "GCP Folders to fetch findings from, delimited by comma")
+	flag.StringVar(&cfg.clusterProjectIDs, "clusterProjectIDs", os.Getenv("CLUSTER_PROJECTS"), "GCP Folders to fetch findings from, delimited by comma")
 	flag.StringVar(&cfg.dataResidency, "dataResidency", os.Getenv("RESIDENCY"), "Data residency: eu or global")
 	flag.StringVar(&cfg.slackChannel, "slackChannel", os.Getenv("SLACK_CHANNEL"), "Slack channel to send message to")
 	flag.StringVar(&cfg.slackToken, "slackAPIToken", os.Getenv("SLACK_API_TOKEN"), "Slack API token")
