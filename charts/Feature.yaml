@@ -2,11 +2,6 @@ environmentKinds:
   - management
 
 values:
-  folderIDs:
-    displayName: Nais folder IDs
-    description: Comma-separated list of folder ids to fetch findings from
-    config:
-      type: string
   slackToken:
     displayName: Slack token
     description: The Slack token for Slack api

@@ -15,13 +15,17 @@ var SeverityOrder = map[string]int{
 
 func SortVulnerabilities(results []Vulnerability) []Vulnerability {
 	slices.SortFunc(results, func(i, j Vulnerability) int {
-		if i.Severity == j.Severity {
-			return strings.Compare(i.Category, j.Category)
-		}
-		if SeverityOrder[i.Severity] < SeverityOrder[j.Severity] {
-			return 1
-		} else if SeverityOrder[i.Severity] > SeverityOrder[j.Severity] {
-			return -1
+		if i.ProjectId == j.ProjectId {
+			if i.Severity == j.Severity {
+				return strings.Compare(i.Category, j.Category)
+			}
+			if SeverityOrder[i.Severity] < SeverityOrder[j.Severity] {
+				return 1
+			} else if SeverityOrder[i.Severity] > SeverityOrder[j.Severity] {
+				return -1
+			}
+		} else {
+			return strings.Compare(i.ProjectId, j.ProjectId)
 		}
 		return 0
 	})
