@@ -4,7 +4,7 @@ environmentKinds:
 values:
   slackToken:
     displayName: Slack token
-    description: The Slack token for Slack api
+    description: Token for the Slack API
     config:
       type: string
       secret: true
@@ -15,22 +15,18 @@ values:
       type: string
   residency:
     displayName: Data residency location
-    description: The data residency of the project, ie eu or global
+    description: The data residency of SCC findings for the tenant, i.e. eu or global
     config:
       type: string
   tenant:
     displayName: Tenant name
     computed:
       template: '"{{ .Tenant.Name }}"'
-    config:
-      type: string
   projectID:
     displayName: Google project ID
-    description: The Google project ID to fetch findings from
+    description: The Google project ID where the service account resides
     computed:
       template: "{{ .Env.project_id | quote }}"
-    config:
-      type: string
   clusters:
     displayName: Clusters project IDs
     description: Tenant clusters project IDs
