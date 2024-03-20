@@ -8,7 +8,7 @@ CronJob running in the `nais-system` namespace, pulling findings from Security C
 
 ## Fasit Configuration
 
-- `folderIDs`: Folders to fetch findings from. Must be provided. Use comma as delimitor.
+- `projectIDs`: Projects to fetch findings from. Must be provided. Use comma as delimiter.
 - `residency`: Data residency. eu for v2 and global for v1 of Security Command Center. Must be provided.
 - `slackToken`: Slack API token. Must be provided.
 - `slackChannel`: Slack alert channel. Default value from values.yaml.
