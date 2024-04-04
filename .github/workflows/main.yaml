@@ -4,8 +4,8 @@ on:
     branches:
       - main
     paths-ignore:
-      - '*.md'
-      - '*.env'
+      - "*.md"
+      - "*.env"
 env:
   NAME: goons
   FEATURE_REPOSITORY: oci://europe-north1-docker.pkg.dev/nais-io/nais/feature
@@ -80,8 +80,8 @@ jobs:
       - name: Update values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'charts/values.yaml'
-          propertyPath: 'image.tag'
+          valueFile: "charts/values.yaml"
+          propertyPath: "image.tag"
           value: ${{ steps.build-push-sign.outputs.version }}
           commitChange: false
 
@@ -110,4 +110,3 @@ jobs:
         with:
           chart: ${{ env.FEATURE_REPOSITORY }}/${{ env.NAME }}
           version: ${{ needs.build_and_push.outputs.version }}
-          feature_name: ${{ env.NAME }}
