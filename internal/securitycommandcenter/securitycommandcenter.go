@@ -2,8 +2,10 @@ package securitycommandcenter
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/url"
+	"time"
 
 	securitycenter "cloud.google.com/go/securitycenter/apiv2"
 	"cloud.google.com/go/securitycenter/apiv2/securitycenterpb"
@@ -38,17 +40,19 @@ func New(ctx context.Context, residency string, log *logrus.Logger) (*Client, er
 }
 
 func (c *Client) listFindings(ctx context.Context, sourceName string) ([]*securitycenterpb.Finding, error) {
+	// Get all findings from the last 7 days
+	filterDate := time.Now().AddDate(0, 0, -7).Format("2006-01-02")
 	req := &securitycenterpb.ListFindingsRequest{
 		Parent: sourceName,
-		Filter: `state="ACTIVE" AND NOT mute="MUTED"`,
+		Filter: fmt.Sprintf(`state="ACTIVE" AND NOT mute="MUTED" AND event_time >= "%s"`, filterDate),
 	}
 
-	findings := []*securitycenterpb.Finding{}
+	var findings []*securitycenterpb.Finding
 
 	it := c.client.ListFindings(ctx, req)
 	for {
 		result, err := it.Next()
-		if err == iterator.Done {
+		if errors.Is(err, iterator.Done) {
 			break
 		}
 		if err != nil {
@@ -61,7 +65,7 @@ func (c *Client) listFindings(ctx context.Context, sourceName string) ([]*securi
 }
 
 func (c *Client) ListProjectFindings(ctx context.Context, project string) ([]Vulnerability, error) {
-	ret := []Vulnerability{}
+	var ret []Vulnerability
 	findings, err := c.listFindings(ctx, fmt.Sprintf("projects/%s/sources/-/locations/%s", project, c.residency))
 	if err != nil {
 		return nil, err
