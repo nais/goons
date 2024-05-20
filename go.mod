@@ -46,6 +46,6 @@ require (
 
 require (
 	cloud.google.com/go/securitycenter v1.28.0
-	github.com/slack-go/slack v0.12.5
+	github.com/slack-go/slack v0.13.0
 	golang.org/x/sys v0.18.0 // indirect
 )
