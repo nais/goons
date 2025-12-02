@@ -20,9 +20,9 @@ jobs:
     name: build and push
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # ratchet:actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # ratchet:actions/checkout@v6
 
-      - uses: asdf-vm/actions/setup@05e0d2ed97b598bfce82fd30daf324ae0c4570e6 # ratchet:asdf-vm/actions/setup@v3
+      - uses: asdf-vm/actions/setup@05e0d2ed97b598bfce82fd30daf324ae0c4570e6 # ratchet:asdf-vm/actions/setup@v4
 
       - id: asdf-cache
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # ratchet:actions/cache@v4
@@ -30,7 +30,7 @@ jobs:
           path: ~/.asdf/
           key: ${{ runner.os }}-asdf-${{ hashFiles('**/.tool-versions') }}
 
-      - uses: asdf-vm/actions/install@05e0d2ed97b598bfce82fd30daf324ae0c4570e6 # ratchet:asdf-vm/actions/install@v3
+      - uses: asdf-vm/actions/install@05e0d2ed97b598bfce82fd30daf324ae0c4570e6 # ratchet:asdf-vm/actions/install@v4
         if: steps.asdf-cache.outputs.cache-hit != 'true'
         with:
           before_install: |
@@ -87,8 +87,6 @@ jobs:
 
       - uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4 # ratchet:azure/setup-helm@v4
         name: "Setup Helm"
-        with:
-          version: "v3.14.2"
 
       - name: Build Chart
         run: |-
