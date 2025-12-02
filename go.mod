@@ -1,6 +1,6 @@
 module github.com/nais/goons
 
-go 1.23
+go 1.25
 
 require (
 	cloud.google.com/go/securitycenter v1.35.2
