@@ -14,16 +14,16 @@ test:
 check: staticcheck vulncheck deadcode
 
 staticcheck:
-	go run honnef.co/go/tools/cmd/staticcheck@latest ./...
+	go tool honnef.co/go/tools/cmd/staticcheck ./...
 
 vulncheck:
-	go run golang.org/x/vuln/cmd/govulncheck@latest ./...
+	go tool golang.org/x/vuln/cmd/govulncheck ./...
 
 deadcode:
-	go run golang.org/x/tools/cmd/deadcode@latest -test ./...
+	go tool golang.org/x/tools/cmd/deadcode -test ./...
 
 fmt:
-	go run mvdan.cc/gofumpt@latest -w ./
+	go tool mvdan.cc/gofumpt -w ./
 
 helm-lint:
 	helm lint --strict ./charts

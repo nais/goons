@@ -20,39 +20,9 @@ jobs:
     name: build and push
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # ratchet:actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # ratchet:actions/checkout@v6
 
-      - uses: asdf-vm/actions/setup@05e0d2ed97b598bfce82fd30daf324ae0c4570e6 # ratchet:asdf-vm/actions/setup@v4
-
-      - id: asdf-cache
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # ratchet:actions/cache@v4
-        with:
-          path: ~/.asdf/
-          key: ${{ runner.os }}-asdf-${{ hashFiles('**/.tool-versions') }}
-
-      - uses: asdf-vm/actions/install@05e0d2ed97b598bfce82fd30daf324ae0c4570e6 # ratchet:asdf-vm/actions/install@v4
-        if: steps.asdf-cache.outputs.cache-hit != 'true'
-        with:
-          before_install: |
-            asdf install golang latest
-            asdf global golang latest
-
-      - name: Find go cache dir
-        id: go-cache
-        run: |
-          go version
-          # Clear cache dirs to avoid error when restoring
-          go clean -cache -modcache
-          echo "gocache=$(go env GOCACHE)" >> $GITHUB_OUTPUT
-          echo "gomodcache=$(go env GOMODCACHE)" >> $GITHUB_OUTPUT
-
-      - name: Cache go modules
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # ratchet:actions/cache@v5
-        with:
-          path: |
-            ${{ steps.go-cache.outputs.gocache }}
-            ${{ steps.go-cache.outputs.gomodcache }}
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+      - uses: jdx/mise-action@6d1e696aa24c1aa1bcc1adea0212707c71ab78a8 # ratchet:jdx/mise-action@v3
 
       - run: go test ./...
       - run: helm lint --strict ./charts
@@ -65,7 +35,7 @@ jobs:
           git diff --exit-code --name-only
 
       - id: go_version
-        run: echo "go_version=$(asdf current golang | awk '{print $2}')" >> $GITHUB_OUTPUT
+        run: echo "go_version=$(mise current go)" >> $GITHUB_OUTPUT
 
       - uses: nais/platform-build-push-sign@8be8359cd90915318ee8ab5fbc8337d04937ae70 # ratchet:nais/platform-build-push-sign@main
         id: build-push-sign
@@ -104,8 +74,9 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: nais/fasit-deploy@e845f0a14ec8345210295afffa33c28c4ba74b06 # ratchet:nais/fasit-deploy@v3
+      - uses: nais/fasit-deploy@9d9b0d597dfa7ab71763b9c46844e2e7337d44e9 # ratchet:nais/fasit-deploy@v3
         with:
           chart: ${{ env.FEATURE_REPOSITORY }}/${{ env.NAME }}
           version: ${{ needs.build_and_push.outputs.version }}
           target: '{ "kind" : "management" }'
+          skip-ci: 'false'
