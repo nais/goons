@@ -79,4 +79,3 @@ jobs:
           chart: ${{ env.FEATURE_REPOSITORY }}/${{ env.NAME }}
           version: ${{ needs.build_and_push.outputs.version }}
           target: '{ "kind" : "management" }'
-          skip-ci: 'true'
