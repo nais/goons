@@ -68,7 +68,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: nais/fasit-deploy@c2ba88852394b24228abcc539a7b51a6f4fc3358 # ratchet:nais/fasit-deploy@v3
+      - uses: nais/fasit-deploy@823713701adc890b6201635c580d87b0ee1587ba # ratchet:nais/fasit-deploy@v3
         with:
           chart: ${{ env.FEATURE_REPOSITORY }}/${{ env.NAME }}
           version: ${{ needs.build_and_push.outputs.version }}
