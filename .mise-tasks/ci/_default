@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+#MISE description="CI"
+
+set -e
+
+
+mise run test ::: helm:lint ::: check

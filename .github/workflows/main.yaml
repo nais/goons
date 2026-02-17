@@ -24,10 +24,7 @@ jobs:
 
       - uses: jdx/mise-action@6d1e696aa24c1aa1bcc1adea0212707c71ab78a8 # ratchet:jdx/mise-action@v3
 
-      - run: go test ./...
-      - run: helm lint --strict ./charts
-      - run: make staticcheck
-      - run: make vulncheck
+      - run: mise run ci
 
       - name: Check code format and run code generators
         run: |
