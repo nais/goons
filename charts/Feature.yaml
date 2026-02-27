@@ -1,5 +1,7 @@
 environmentKinds:
   - management
+target:
+  kind: managment
 
 values:
   slackToken:
