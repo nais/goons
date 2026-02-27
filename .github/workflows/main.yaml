@@ -70,7 +70,6 @@ jobs:
     steps:
       - uses: nais/fasit-deploy@64563ac50087e287f99ebb0928f444453f81eeeb # ratchet:nais/fasit-deploy@v3
         with:
-          google_service_account: gh-${{ env.NAME }}
-          workload_identity_provider: ${{ secrets.NAIS_IO_WORKLOAD_IDENTITY_PROVIDER }}
           chart: ${{ env.FEATURE_REPOSITORY }}/${{ env.NAME }}
           version: ${{ needs.build_and_push.outputs.version }}
+          target: '{"kind":"management"}'
