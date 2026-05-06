@@ -72,4 +72,8 @@ jobs:
         with:
           chart: ${{ env.FEATURE_REPOSITORY }}/${{ env.NAME }}
           version: ${{ needs.build_and_push.outputs.version }}
-          targets: '[{"target":{"kind":"management"},"wait":true}]'
+          targets: |
+            [
+              { "target": { "kind": "management", "tenant": "ci-nais" }, "wait": true },
+              { "target": { "kind": "management" } }
+            ]
