@@ -30,7 +30,7 @@ func (s *Slack) GetNotificationMessageOptions(tenant, residency string, findings
 			summaryText.WriteString(fmt.Sprintf("%s: %d\n", category, count))
 		}
 
-		if summaryText.String() != "" {
+		if summaryText.Len() > 0 {
 			severityAttachment := slackapi.Attachment{
 				Color: severityColors[k],
 				Title: fmt.Sprintf("Severity %s", k),

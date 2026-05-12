@@ -70,6 +70,10 @@ func Run(ctx context.Context) {
 
 	findings := []securitycommandcenter.Vulnerability{}
 	for projectID := range strings.SplitSeq(cfg.clusterProjectIDs, ",") {
+		projectID = strings.TrimSpace(projectID)
+		if projectID == "" {
+			continue
+		}
 		log.Infof("fetching findings for project: %s", projectID)
 		projectFindings, err := client.ListProjectFindings(ctx, projectID)
 		if err != nil {
