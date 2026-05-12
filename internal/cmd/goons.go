@@ -54,7 +54,7 @@ func Run(ctx context.Context) {
 		os.Exit(1)
 	}
 
-	cfg.dataResidency = strings.ToLower(cfg.dataResidency)
+	cfg.dataResidency = strings.TrimSpace(strings.ToLower(cfg.dataResidency))
 	if cfg.dataResidency != "eu" && cfg.dataResidency != "global" {
 		log.Errorf("invalid dataResidency: %q; must be 'eu' or 'global'", cfg.dataResidency)
 		flag.PrintDefaults()
@@ -69,17 +69,22 @@ func Run(ctx context.Context) {
 	}
 
 	findings := []securitycommandcenter.Vulnerability{}
+	projectCount := 0
 	for projectID := range strings.SplitSeq(cfg.clusterProjectIDs, ",") {
 		projectID = strings.TrimSpace(projectID)
 		if projectID == "" {
 			continue
 		}
+		projectCount++
 		log.Infof("fetching findings for project: %s", projectID)
 		projectFindings, err := client.ListProjectFindings(ctx, projectID)
 		if err != nil {
 			log.WithError(err).Fatal("list project findings")
 		}
 		findings = append(findings, projectFindings...)
+	}
+	if projectCount == 0 {
+		log.Fatal("no valid project IDs found in clusterProjectIDs")
 	}
 
 	findings = securitycommandcenter.SortVulnerabilities(findings)
