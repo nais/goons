@@ -32,15 +32,36 @@ func Run(ctx context.Context) {
 
 	flag.Parse()
 
-	if cfg.dataResidency != "" {
-		cfg.dataResidency = strings.ToLower(cfg.dataResidency)
-		if cfg.dataResidency != "eu" && cfg.dataResidency != "global" {
-			flag.PrintDefaults()
-			os.Exit(1)
-		}
+	cfg.clusterProjectIDs = strings.TrimSpace(cfg.clusterProjectIDs)
+	cfg.slackToken = strings.TrimSpace(cfg.slackToken)
+	cfg.slackChannel = strings.TrimSpace(cfg.slackChannel)
+	cfg.tenant = strings.TrimSpace(cfg.tenant)
+	cfg.dataResidency = strings.TrimSpace(strings.ToLower(cfg.dataResidency))
+
+	var missing []string
+	if cfg.clusterProjectIDs == "" {
+		missing = append(missing, "clusterProjectIDs")
+	}
+	if cfg.slackToken == "" {
+		missing = append(missing, "slackAPIToken")
+	}
+	if cfg.slackChannel == "" {
+		missing = append(missing, "slackChannel")
+	}
+	if cfg.tenant == "" {
+		missing = append(missing, "tenant")
+	}
+	if cfg.dataResidency == "" {
+		missing = append(missing, "dataResidency")
+	}
+	if len(missing) > 0 {
+		log.Errorf("missing required flags: %s", strings.Join(missing, ", "))
+		flag.PrintDefaults()
+		os.Exit(1)
 	}
 
-	if cfg.clusterProjectIDs == "" || cfg.slackToken == "" || cfg.slackChannel == "" || cfg.tenant == "" {
+	if cfg.dataResidency != "eu" && cfg.dataResidency != "global" {
+		log.Errorf("invalid dataResidency: %q; must be 'eu' or 'global'", cfg.dataResidency)
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
@@ -53,13 +74,22 @@ func Run(ctx context.Context) {
 	}
 
 	findings := []securitycommandcenter.Vulnerability{}
-	for _, projectID := range strings.Split(cfg.clusterProjectIDs, ",") {
+	projectCount := 0
+	for projectID := range strings.SplitSeq(cfg.clusterProjectIDs, ",") {
+		projectID = strings.TrimSpace(projectID)
+		if projectID == "" {
+			continue
+		}
+		projectCount++
 		log.Infof("fetching findings for project: %s", projectID)
 		projectFindings, err := client.ListProjectFindings(ctx, projectID)
 		if err != nil {
 			log.WithError(err).Fatal("list project findings")
 		}
 		findings = append(findings, projectFindings...)
+	}
+	if projectCount == 0 {
+		log.Fatal("no valid project IDs found in clusterProjectIDs")
 	}
 
 	findings = securitycommandcenter.SortVulnerabilities(findings)
