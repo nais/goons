@@ -9,4 +9,5 @@ resources:
   memory: 512Mi
 
 projectID: ""
+residency: "global"
 slackChannel: "gcp-security-command-center-alerts"
