@@ -32,6 +32,8 @@ func Run(ctx context.Context) {
 
 	flag.Parse()
 
+	cfg.dataResidency = strings.TrimSpace(strings.ToLower(cfg.dataResidency))
+
 	var missing []string
 	if cfg.clusterProjectIDs == "" {
 		missing = append(missing, "clusterProjectIDs")
@@ -54,7 +56,6 @@ func Run(ctx context.Context) {
 		os.Exit(1)
 	}
 
-	cfg.dataResidency = strings.TrimSpace(strings.ToLower(cfg.dataResidency))
 	if cfg.dataResidency != "eu" && cfg.dataResidency != "global" {
 		log.Errorf("invalid dataResidency: %q; must be 'eu' or 'global'", cfg.dataResidency)
 		flag.PrintDefaults()

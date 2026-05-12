@@ -27,7 +27,7 @@ func (s *Slack) GetNotificationMessageOptions(tenant, residency string, findings
 		var summaryText strings.Builder
 
 		for category, count := range findingsSummary.Summary[k] {
-			summaryText.WriteString(fmt.Sprintf("%s: %d\n", category, count))
+			fmt.Fprintf(&summaryText, "%s: %d\n", category, count)
 		}
 
 		if summaryText.Len() > 0 {
