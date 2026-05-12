@@ -32,13 +32,31 @@ func Run(ctx context.Context) {
 
 	flag.Parse()
 
-	if cfg.clusterProjectIDs == "" || cfg.slackToken == "" || cfg.slackChannel == "" || cfg.tenant == "" || cfg.dataResidency == "" {
+	var missing []string
+	if cfg.clusterProjectIDs == "" {
+		missing = append(missing, "clusterProjectIDs")
+	}
+	if cfg.slackToken == "" {
+		missing = append(missing, "slackAPIToken")
+	}
+	if cfg.slackChannel == "" {
+		missing = append(missing, "slackChannel")
+	}
+	if cfg.tenant == "" {
+		missing = append(missing, "tenant")
+	}
+	if cfg.dataResidency == "" {
+		missing = append(missing, "dataResidency")
+	}
+	if len(missing) > 0 {
+		log.Errorf("missing required flags: %s", strings.Join(missing, ", "))
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
 
 	cfg.dataResidency = strings.ToLower(cfg.dataResidency)
 	if cfg.dataResidency != "eu" && cfg.dataResidency != "global" {
+		log.Errorf("invalid dataResidency: %q; must be 'eu' or 'global'", cfg.dataResidency)
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
