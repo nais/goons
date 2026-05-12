@@ -32,15 +32,13 @@ func Run(ctx context.Context) {
 
 	flag.Parse()
 
-	if cfg.dataResidency != "" {
-		cfg.dataResidency = strings.ToLower(cfg.dataResidency)
-		if cfg.dataResidency != "eu" && cfg.dataResidency != "global" {
-			flag.PrintDefaults()
-			os.Exit(1)
-		}
+	if cfg.clusterProjectIDs == "" || cfg.slackToken == "" || cfg.slackChannel == "" || cfg.tenant == "" || cfg.dataResidency == "" {
+		flag.PrintDefaults()
+		os.Exit(1)
 	}
 
-	if cfg.clusterProjectIDs == "" || cfg.slackToken == "" || cfg.slackChannel == "" || cfg.tenant == "" {
+	cfg.dataResidency = strings.ToLower(cfg.dataResidency)
+	if cfg.dataResidency != "eu" && cfg.dataResidency != "global" {
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
