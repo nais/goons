@@ -24,17 +24,17 @@ func (s *Slack) GetNotificationMessageOptions(tenant, residency string, findings
 	blocks = append(blocks, headerBlock, linkBlock)
 
 	for _, k := range []string{"CRITICAL", "HIGH", "MEDIUM", "LOW", "SEVERITY_UNSPECIFIED"} {
-		summaryText := ""
+		var summaryText strings.Builder
 
 		for category, count := range findingsSummary.Summary[k] {
-			summaryText += fmt.Sprintf("%s: %d\n", category, count)
+			summaryText.WriteString(fmt.Sprintf("%s: %d\n", category, count))
 		}
 
-		if summaryText != "" {
+		if summaryText.String() != "" {
 			severityAttachment := slackapi.Attachment{
 				Color: severityColors[k],
 				Title: fmt.Sprintf("Severity %s", k),
-				Text:  summaryText,
+				Text:  summaryText.String(),
 			}
 			attatchments = append(attatchments, severityAttachment)
 		}
