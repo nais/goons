@@ -32,6 +32,10 @@ func Run(ctx context.Context) {
 
 	flag.Parse()
 
+	cfg.clusterProjectIDs = strings.TrimSpace(cfg.clusterProjectIDs)
+	cfg.slackToken = strings.TrimSpace(cfg.slackToken)
+	cfg.slackChannel = strings.TrimSpace(cfg.slackChannel)
+	cfg.tenant = strings.TrimSpace(cfg.tenant)
 	cfg.dataResidency = strings.TrimSpace(strings.ToLower(cfg.dataResidency))
 
 	var missing []string

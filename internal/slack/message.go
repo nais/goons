@@ -17,7 +17,7 @@ var severityColors = map[string]string{
 }
 
 func (s *Slack) GetNotificationMessageOptions(tenant, residency string, findingsSummary securitycommandcenter.ProjectSummary) []slackapi.MsgOption {
-	attatchments := []slackapi.Attachment{}
+	attachments := []slackapi.Attachment{}
 	blocks := []slackapi.Block{}
 	headerBlock := slackapi.NewHeaderBlock(slackapi.NewTextBlockObject("plain_text", fmt.Sprintf("Findings summary from Security Command Center for %s/%s", strings.ToUpper(tenant), findingsSummary.ProjectId), false, false))
 	linkBlock := slackapi.NewSectionBlock(slackapi.NewTextBlockObject("mrkdwn", "View all findings for project in <https://console.cloud.google.com/security/command-center/findingsv2;filter=state%3D%22ACTIVE%22%0AAND%20NOT%20mute%3D%22MUTED%22;timeRange=P7D?location="+residency+"&project="+findingsSummary.ProjectId+"&supportedpurview=organizationId,folder,project|Security Command Center>.", false, false), nil, nil)
@@ -36,17 +36,17 @@ func (s *Slack) GetNotificationMessageOptions(tenant, residency string, findings
 				Title: fmt.Sprintf("Severity %s", k),
 				Text:  summaryText.String(),
 			}
-			attatchments = append(attatchments, severityAttachment)
+			attachments = append(attachments, severityAttachment)
 		}
 	}
 
-	if len(attatchments) == 0 {
+	if len(attachments) == 0 {
 		return nil
 	}
 
 	return []slackapi.MsgOption{
 		slackapi.MsgOptionBlocks(blocks...),
-		slackapi.MsgOptionAttachments(attatchments...),
+		slackapi.MsgOptionAttachments(attachments...),
 		slackapi.MsgOptionDisableLinkUnfurl(),
 	}
 }
