@@ -15,7 +15,7 @@ require (
 	cloud.google.com/go/securitycenter v1.44.0
 	github.com/google/go-cmp v0.7.0
 	github.com/sirupsen/logrus v1.9.4
-	github.com/slack-go/slack v0.23.1
+	github.com/slack-go/slack v0.24.0
 	github.com/spf13/pflag v1.0.10
 	google.golang.org/api v0.279.0
 )
