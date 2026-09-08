@@ -16,8 +16,8 @@ import (
 type Vulnerability struct {
 	Severity   string
 	Category   string
-	FindingUrl string
-	ProjectId  string
+	FindingURL string
+	ProjectID  string
 }
 
 type Client struct {
@@ -75,8 +75,8 @@ func (c *Client) ListProjectFindings(ctx context.Context, project string) ([]Vul
 		ret = append(ret, Vulnerability{
 			Severity:   finding.GetSeverity().String(),
 			Category:   finding.GetCategory(),
-			FindingUrl: "https://console.cloud.google.com/security/command-center/findingsv2;name=" + url.PathEscape(finding.GetName()) + ";filter=state%3D%22ACTIVE%22%0AAND%20NOT%20mute%3D%22MUTED%22;timeRange=allTime?referrer=search&project=" + project,
-			ProjectId:  project,
+			FindingURL: "https://console.cloud.google.com/security/command-center/findingsv2;name=" + url.PathEscape(finding.GetName()) + ";filter=state%3D%22ACTIVE%22%0AAND%20NOT%20mute%3D%22MUTED%22;timeRange=allTime?referrer=search&project=" + project,
+			ProjectID:  project,
 		})
 	}
 

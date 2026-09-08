@@ -19,8 +19,8 @@ var severityColors = map[string]string{
 func (s *Slack) GetNotificationMessageOptions(tenant, residency string, findingsSummary securitycommandcenter.ProjectSummary) []slackapi.MsgOption {
 	attachments := []slackapi.Attachment{}
 	blocks := []slackapi.Block{}
-	headerBlock := slackapi.NewHeaderBlock(slackapi.NewTextBlockObject("plain_text", fmt.Sprintf("Findings summary from Security Command Center for %s/%s", strings.ToUpper(tenant), findingsSummary.ProjectId), false, false))
-	linkBlock := slackapi.NewSectionBlock(slackapi.NewTextBlockObject("mrkdwn", "View all findings for project in <https://console.cloud.google.com/security/command-center/findingsv2;filter=state%3D%22ACTIVE%22%0AAND%20NOT%20mute%3D%22MUTED%22;timeRange=P7D?location="+residency+"&project="+findingsSummary.ProjectId+"&supportedpurview=organizationId,folder,project|Security Command Center>.", false, false), nil, nil)
+	headerBlock := slackapi.NewHeaderBlock(slackapi.NewTextBlockObject("plain_text", fmt.Sprintf("Findings summary from Security Command Center for %s/%s", strings.ToUpper(tenant), findingsSummary.ProjectID), false, false))
+	linkBlock := slackapi.NewSectionBlock(slackapi.NewTextBlockObject("mrkdwn", "View all findings for project in <https://console.cloud.google.com/security/command-center/findingsv2;filter=state%3D%22ACTIVE%22%0AAND%20NOT%20mute%3D%22MUTED%22;timeRange=P7D?location="+residency+"&project="+findingsSummary.ProjectID+"&supportedpurview=organizationId,folder,project|Security Command Center>.", false, false), nil, nil)
 	blocks = append(blocks, headerBlock, linkBlock)
 
 	for _, k := range []string{"CRITICAL", "HIGH", "MEDIUM", "LOW", "SEVERITY_UNSPECIFIED"} {
