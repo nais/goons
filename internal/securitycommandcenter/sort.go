@@ -15,7 +15,7 @@ var SeverityOrder = map[string]int{
 
 func SortVulnerabilities(results []Vulnerability) []Vulnerability {
 	slices.SortFunc(results, func(i, j Vulnerability) int {
-		if i.ProjectId == j.ProjectId {
+		if i.ProjectID == j.ProjectID {
 			if i.Severity == j.Severity {
 				return strings.Compare(i.Category, j.Category)
 			}
@@ -25,7 +25,7 @@ func SortVulnerabilities(results []Vulnerability) []Vulnerability {
 				return -1
 			}
 		} else {
-			return strings.Compare(i.ProjectId, j.ProjectId)
+			return strings.Compare(i.ProjectID, j.ProjectID)
 		}
 		return 0
 	})
