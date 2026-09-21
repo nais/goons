@@ -17,7 +17,7 @@ require (
 	github.com/sirupsen/logrus v1.10.2
 	github.com/slack-go/slack v0.29.0
 	github.com/spf13/pflag v1.0.10
-	google.golang.org/api v0.297.0
+	google.golang.org/api v0.298.0
 )
 
 require (
