@@ -12,7 +12,7 @@ tool (
 )
 
 require (
-	cloud.google.com/go/securitycenter v1.46.0
+	cloud.google.com/go/securitycenter v1.47.0
 	github.com/google/go-cmp v0.7.0
 	github.com/sirupsen/logrus v1.10.2
 	github.com/slack-go/slack v0.29.0
