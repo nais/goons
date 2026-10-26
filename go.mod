@@ -17,7 +17,7 @@ require (
 	github.com/sirupsen/logrus v1.10.2
 	github.com/slack-go/slack v0.30.1
 	github.com/spf13/pflag v1.0.10
-	google.golang.org/api v0.305.0
+	google.golang.org/api v0.308.0
 )
 
 require (
@@ -72,7 +72,6 @@ require (
 	go.opentelemetry.io/otel/metric v1.47.0 // indirect
 	go.opentelemetry.io/otel/trace v1.47.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
-	go.yaml.in/yaml/v4 v4.0.0-rc.6 // indirect
 	golang.org/x/crypto v0.58.0 // indirect
 	golang.org/x/exp/typeparams v0.0.0-20261014143641-f0251eb4aa3e // indirect
 	golang.org/x/mod v0.42.0 // indirect
