@@ -1,6 +1,6 @@
 module github.com/nais/goons
 
-go 1.26.10
+go 1.27
 
 tool (
 	github.com/securego/gosec/v2/cmd/gosec
