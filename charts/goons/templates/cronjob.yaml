@@ -4,6 +4,7 @@ kind: CronJob
 metadata:
   name: goons
 spec:
+  backoffLimit: 0
   schedule: "0 12 * * MON"
   timeZone: "Europe/Oslo"
   startingDeadlineSeconds: 600
