@@ -74,6 +74,7 @@ func Run(ctx context.Context) {
 	}
 
 	findings := []securitycommandcenter.Vulnerability{}
+	var failedProjects []string
 	projectCount := 0
 	for projectID := range strings.SplitSeq(cfg.clusterProjectIDs, ",") {
 		projectID = strings.TrimSpace(projectID)
@@ -84,7 +85,13 @@ func Run(ctx context.Context) {
 		log.Infof("fetching findings for project: %s", projectID)
 		projectFindings, err := client.ListProjectFindings(ctx, projectID)
 		if err != nil {
-			log.WithError(err).Fatal("list project findings")
+			log.WithError(err).Error("list project findings")
+			failedProjects = append(failedProjects, projectID)
+			msgOptions := slackclient.GetFailureMessageOptions(cfg.tenant, projectID, err)
+			if err := slackclient.SendMessage(cfg.slackChannel, msgOptions); err != nil {
+				log.WithError(err).Error("send failure message to slack")
+			}
+			continue
 		}
 		findings = append(findings, projectFindings...)
 	}
@@ -106,5 +113,9 @@ func Run(ctx context.Context) {
 		if err != nil {
 			log.WithError(err).Fatal("send message to slack")
 		}
+	}
+
+	if len(failedProjects) > 0 {
+		log.Fatalf("failed to fetch findings for projects: %s", strings.Join(failedProjects, ", "))
 	}
 }

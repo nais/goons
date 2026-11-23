@@ -50,3 +50,24 @@ func (s *Slack) GetNotificationMessageOptions(tenant, residency string, findings
 		slackapi.MsgOptionDisableLinkUnfurl(),
 	}
 }
+
+func (s *Slack) GetFailureMessageOptions(tenant, projectID string, err error) []slackapi.MsgOption {
+	text := fmt.Sprintf("Could not fetch findings for project `%s`:\n```%s```", projectID, err.Error())
+	// SCC returns this misleading error when it isn't activated for the organization
+	if strings.Contains(err.Error(), "Security Command Center Legacy") {
+		text += "\nSecurity Command Center is probably not activated for this organization, see <https://handbook.nais.io/technical/tenant-setup/2-tenant/#enable-security-command-center|tenant setup step 2>."
+	}
+
+	headerBlock := slackapi.NewHeaderBlock(slackapi.NewTextBlockObject("plain_text", fmt.Sprintf("Failed to fetch findings from Security Command Center for %s/%s", strings.ToUpper(tenant), projectID), false, false))
+	attachment := slackapi.Attachment{
+		Color: severityColors["CRITICAL"],
+		Title: "Error fetching findings",
+		Text:  text,
+	}
+
+	return []slackapi.MsgOption{
+		slackapi.MsgOptionBlocks(headerBlock),
+		slackapi.MsgOptionAttachments(attachment),
+		slackapi.MsgOptionDisableLinkUnfurl(),
+	}
+}
