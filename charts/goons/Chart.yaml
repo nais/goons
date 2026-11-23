@@ -4,4 +4,4 @@ description: Job for fetching findings from Google Security Command Center
 type: application
 version: 0.1.0
 sources:
-  - https://github.com/nais/goons/tree/main/charts
+  - https://github.com/nais/goons/tree/main/charts/goons
