@@ -11,6 +11,7 @@ import (
 	"cloud.google.com/go/securitycenter/apiv2/securitycenterpb"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/api/iterator"
+	"google.golang.org/api/option"
 )
 
 type Vulnerability struct {
@@ -27,7 +28,12 @@ type Client struct {
 }
 
 func New(ctx context.Context, residency string, log *logrus.Logger) (*Client, error) {
-	client, err := securitycenter.NewClient(ctx)
+	var opts []option.ClientOption
+	if residency == "eu" {
+		opts = append(opts, option.WithEndpoint("securitycenter.eu.rep.googleapis.com:443"))
+	}
+
+	client, err := securitycenter.NewClient(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("securitycenter.NewClient: %w", err)
 	}
@@ -37,6 +43,13 @@ func New(ctx context.Context, residency string, log *logrus.Logger) (*Client, er
 		log:       log,
 		residency: residency,
 	}, nil
+}
+
+func ConsoleHost(residency string) string {
+	if residency == "eu" {
+		return "console.eu.cloud.google.com"
+	}
+	return "console.cloud.google.com"
 }
 
 func (c *Client) listFindings(ctx context.Context, sourceName string) ([]*securitycenterpb.Finding, error) {
@@ -75,7 +88,7 @@ func (c *Client) ListProjectFindings(ctx context.Context, project string) ([]Vul
 		ret = append(ret, Vulnerability{
 			Severity:   finding.GetSeverity().String(),
 			Category:   finding.GetCategory(),
-			FindingURL: "https://console.cloud.google.com/security/command-center/findingsv2;name=" + url.PathEscape(finding.GetName()) + ";filter=state%3D%22ACTIVE%22%0AAND%20NOT%20mute%3D%22MUTED%22;timeRange=allTime?referrer=search&project=" + project,
+			FindingURL: "https://" + ConsoleHost(c.residency) + "/security/command-center/findingsv2;name=" + url.PathEscape(finding.GetName()) + ";filter=state%3D%22ACTIVE%22%0AAND%20NOT%20mute%3D%22MUTED%22;timeRange=allTime?referrer=search&project=" + project,
 			ProjectID:  project,
 		})
 	}
