@@ -17,5 +17,5 @@ CronJob running in the `nais-system` namespace, pulling findings from Security C
 ## Local env
 
 A `local.env` file is provided as a template for local development.
-`mise run local` will source a `.env` file and run the job locally with Google Application Default Credentials.
-You will also need to set a quota project to be able to call the Security Command Center API with `gcloud auth application-default set-quota-project <projectId>`.
+Copy it to `.env` and fill in the values; `mise run local` loads it as a dotenv file and runs the job with Google Application Default Credentials.
+You will also need to set a quota project to be able to call the Security Command Center API, either with `gcloud auth application-default set-quota-project <projectId>` or by setting `GOOGLE_CLOUD_QUOTA_PROJECT` in `.env`.

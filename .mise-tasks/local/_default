@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 #MISE description="Run Go"
+#MISE env={_ = {file = ".env"} }
 
-set -e
-
-env bash -c 'source ./.env; go run ./cmd/goons'
+go run ./cmd/goons
